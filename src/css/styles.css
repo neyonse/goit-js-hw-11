@@ -1,0 +1,14 @@
+.error {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.hidden {
+  display: none;
+}
