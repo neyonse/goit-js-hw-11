@@ -15,15 +15,16 @@ export function fetchImages(inputData) {
 
   console.log(options);
 
-//   const formattedOptions = JSON.stringify(options);
-//   console.log(formattedOptions);
+  //   const formattedOptions = JSON.stringify(options);
+  //   console.log(formattedOptions);
 
-//   console.log(formattedOptions.split(':').join('=').split(',').join('&'));
+  //   console.log(formattedOptions.split(':').join('=').split(',').join('&'));
 
-//   const url = `${BASE_URL}?${formattedOptions}`;
-//   console.log(url);
+  //   const url = `${BASE_URL}?${formattedOptions}`;
+  //   console.log(url);
 
-//   fetch(url)
-//     .then(r => r.json())
-//     .then(data => console.log(data));
-// }
+  //   fetch(url)
+  //     .then(r => r.json())
+  //     .then(data => console.log(data));
+  //
+}
