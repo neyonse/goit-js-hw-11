@@ -10,6 +10,8 @@ const galleryEl = document.querySelector('.gallery');
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
+  animationSpeed: 200,
+  fadeSpeed: 250,
 });
 
 function refreshSimpleLightbox() {
@@ -82,22 +84,22 @@ function createSearchResultsMarkup(dataToShow) {
   const innerHTML = `
   <div class="photo-card">
     <a class="gallery__link" href="${largeImg}">
-    <img class="gallery__image src="${url}" alt="${alt}" loading="lazy" />
+      <img class="gallery__image" src="${url}" alt="${alt}" loading="lazy" />
+      <div class="info">
+        <p class="info-item">
+          <b>Likes: ${likes}</b>
+        </p>
+        <p class="info-item">
+          <b>Views: ${views}</b>
+        </p>
+        <p class="info-item">
+          <b>Comments: ${comments}</b>
+        </p>
+        <p class="info-item">
+          <b>Downloads: ${downloads}</b>
+        </p>
+      </div>
     </a>
-    <div class="info">
-      <p class="info-item">
-        <b>Likes ${likes}</b>
-      </p>
-      <p class="info-item">
-        <b>Views ${views}</b>
-      </p>
-      <p class="info-item">
-        <b>Comments ${comments}</b>
-      </p>
-      <p class="info-item">
-        <b>Downloads ${downloads}</b>
-      </p>
-    </div>
   </div>`;
   galleryEl.insertAdjacentHTML('beforeend', innerHTML);
 }
