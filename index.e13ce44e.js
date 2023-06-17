@@ -1,2 +1,0 @@
-!function(){function e(e){var o=e.split(" ").join("+");console.log(o);var n={key:"37383891-385c0c3fa5b4b213da48ba87c",q:o,image_type:"photo",orientation:"horizontal",safesearch:!0};console.log(n)}var o=document.querySelector("#search-form"),n=o.querySelector('input[name="searchQuery"]');o.addEventListener("submit",(function(o){o.preventDefault(),e(n.value)}))}();
-//# sourceMappingURL=index.e13ce44e.js.map
