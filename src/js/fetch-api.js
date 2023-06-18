@@ -3,14 +3,14 @@ import axios from 'axios';
 const BASE_URL = 'https://pixabay.com/api/';
 const MY_API_KEY = '37383891-385c0c3fa5b4b213da48ba87c';
 
-export async function fetchImages(inputData) {
-  const url = getFetchImagesUrl(inputData);
+export async function fetchImages(inputData, page) {
+  const url = getFetchImagesUrl(inputData, page);
 
   const response = await axios.get(url);
   return response.data;
 }
 
-function getFetchImagesUrl(inputData) {
+function getFetchImagesUrl(inputData, page) {
   const q = inputData.replace(' ', '+');
 
   const params = {
@@ -19,7 +19,11 @@ function getFetchImagesUrl(inputData) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    per_page: 40,
+    page: 1,
   };
+
+  params.page = page;
 
   const paramString = Object.entries(params)
     .map(([key, value]) => `${key}=${value}`)

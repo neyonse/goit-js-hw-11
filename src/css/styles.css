@@ -17,6 +17,10 @@
   outline: transparent;
 }
 
+.search-form > input:is(:hover, :focus) {
+  box-shadow: inset 0px 0px 4px grey;
+}
+
 .search-form > button {
   padding: 8px 24px;
   font-size: 24px;
@@ -25,25 +29,27 @@
   border: 4px solid transparent;
   border-radius: 50px;
   cursor: pointer;
+  outline: transparent;
 }
 
 .search-form > button:is(:hover, :focus) {
   background: linear-gradient(90deg, rgb(213, 161, 255), rgb(255, 221, 159))
       padding-box,
     linear-gradient(90deg, slateblue, coral) border-box;
+  box-shadow: inset 0px 0px 4px grey;
 }
 
 .gallery {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  margin: 24px auto;
+  margin-top: 24px;
 }
 
 .photo-card {
   position: relative;
-  flex-basis: calc(((100% - 48px)) / 3);
-  height: 350px;
+  flex-basis: calc(((100% - 96px)) / 5);
+  height: 220px;
 
   box-shadow: 2px 2px 8px grey;
   border-radius: 8px;
@@ -58,6 +64,12 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+
+  transition: scale 1000ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.photo-card:is(:hover, :focus) .gallery__image {
+  scale: 105%;
 }
 
 .info {
@@ -73,6 +85,66 @@
 .photo-card:is(:hover, :focus) .info {
   transform: translateY(-100%);
 }
+
+.load-more {
+  display: block;
+  margin: 48px auto;
+  padding: 8px 24px;
+  font-size: 24px;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, slateblue, coral) border-box;
+  border: 4px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  outline: transparent;
+}
+
+.load-more:is(:hover, :focus) {
+  background: linear-gradient(90deg, rgb(213, 161, 255), rgb(255, 221, 159))
+      padding-box,
+    linear-gradient(90deg, slateblue, coral) border-box;
+  box-shadow: inset 0px 0px 4px grey;
+}
+
+.gallery-end-message,
+.total-images-message {
+  text-align: center;
+  font-size: 24px;
+  margin: 48px auto;
+}
+
+.scroll-top-btn {
+  display: flex;
+  position: fixed;
+  bottom: 48px;
+  right: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+
+  /* fill: orange;
+  background-color: white; */
+  border-radius: 50%;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, slateblue, coral) border-box;
+  border: 4px solid transparent;
+
+  cursor: pointer;
+}
+
+/* .scroll-top-btn > svg {
+  width: 22px;
+  height: 22px;
+} */
+
+/* .scroll-top-btn > img {
+  width: 40px;
+  height: 40px;
+} */
 
 .hidden {
   display: none;
