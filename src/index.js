@@ -7,7 +7,7 @@ import {
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const formEl = document.querySelector('#search-form');
+const formEl = document.getElementById('search-form');
 const inputEl = formEl.querySelector('input[name="searchQuery"]');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
@@ -31,85 +31,85 @@ let inputData = '';
 let page = 1;
 inputEl.focus();
 
-function onFormSubmit(e) {
+async function onFormSubmit(e) {
   e.preventDefault();
   hideElement(totalImagesFoundMessageEl);
   hideElement(galleryEndMessageEl);
   hideElement(loadMoreBtnEl);
   inputData = inputEl.value;
+  galleryEl.innerHTML = '';
+  page = 1;
 
   if (inputData === '') {
-    galleryEl.innerHTML = '';
     emptySearchBarMessage();
     inputEl.focus();
     return;
   }
 
-  if (galleryEl.hasChildNodes) {
-    galleryEl.innerHTML = '';
-    page = 1;
-  }
+  try {
+    const response = await fetchImages(inputData);
 
-  fetchImages(inputData)
-    .then(response => {
-      if (response.totalHits === 0) {
-        noSearchResultsMessage();
-        return;
-      }
-      constructTotalImagesFoundMessage(response.totalHits);
+    if (response.totalHits === 0) {
+      noSearchResultsMessage();
+      return;
+    }
+
+    constructTotalImagesFoundMessage(response.totalHits);
+    showElement(totalImagesFoundMessageEl);
+    showSearchResults(response);
+
+    if (galleryEl.children.length >= response.totalHits) {
       showElement(totalImagesFoundMessageEl);
-      showSearchResults(response);
-      if (galleryEl.children.length >= response.totalHits) {
-        showElement(totalImagesFoundMessageEl);
-        hideElement(loadMoreBtnEl);
-        showElement(galleryEndMessageEl);
-        return;
-      }
-      page += 1;
-      showElement(loadMoreBtnEl);
-    })
-    .catch(error => {
-      errorMessage();
-      console.error(error);
-    });
+      hideElement(loadMoreBtnEl);
+      showElement(galleryEndMessageEl);
+      return;
+    }
+
+    page += 1;
+    showElement(loadMoreBtnEl);
+  } catch (error) {
+    errorMessage();
+    console.error(error);
+  }
 }
 
-function onLoadMore(e) {
+async function onLoadMore(e) {
   e.preventDefault();
 
-  fetchImages(inputData, page)
-    .then(response => {
-      showSearchResults(response);
-      addSmoothScroll();
+  try {
+    const response = await fetchImages(inputData, page);
 
-      if (galleryEl.children.length >= response.totalHits) {
-        hideElement(loadMoreBtnEl);
-        showElement(galleryEndMessageEl);
-        return;
-      }
-      page += 1;
-    })
-    .catch(error => {
-      errorMessage();
-      console.error(error);
-    });
+    showSearchResults(response);
+    addSmoothScroll();
+
+    if (galleryEl.children.length >= response.totalHits) {
+      hideElement(loadMoreBtnEl);
+      showElement(galleryEndMessageEl);
+      return;
+    }
+
+    page += 1;
+  } catch (error) {
+    errorMessage();
+    console.error(error);
+  }
 }
 
 function getDataToShow(data) {
+  const { likes, views, comments, downloads } = data;
   const dataToShow = {
     url: data.webformatURL,
     largeImg: data.largeImageURL,
     alt: data.tags,
-    likes: data.likes,
-    views: data.views,
-    comments: data.comments,
-    downloads: data.downloads,
+    likes,
+    views,
+    comments,
+    downloads,
   };
-  console.log(dataToShow);
   return dataToShow;
 }
 
-function createSearchResultsMarkup(dataToShow) {
+function createGalleryMarkup(dataToShow) {
   const { url, largeImg, alt, likes, views, comments, downloads } = dataToShow;
   const innerHTML = `
   <div class="photo-card">
@@ -137,7 +137,7 @@ function createSearchResultsMarkup(dataToShow) {
 function showSearchResults(response) {
   response.hits.forEach(data => {
     const dataToShow = getDataToShow(data);
-    createSearchResultsMarkup(dataToShow);
+    createGalleryMarkup(dataToShow);
   });
   lightbox.refresh();
 }
