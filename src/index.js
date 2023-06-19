@@ -1,12 +1,11 @@
 import { fetchImages } from './js/fetch-api';
 import {
-  noSearchQueryMessage,
+  emptySearchBarMessage,
   noSearchResultsMessage,
-  onErrorMessage,
+  errorMessage,
 } from './js/notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import { createScrollToTopEl } from './js/scroll-to-top';
 
 const formEl = document.querySelector('#search-form');
 const inputEl = formEl.querySelector('input[name="searchQuery"]');
@@ -14,6 +13,7 @@ const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
 const galleryEndMessageEl = createGalleryEndMessageEl();
 const totalImagesFoundMessageEl = createTotalImagesFoundMessageEl();
+const scrollTopBtn = document.querySelector('.scroll-top-btn');
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -24,11 +24,12 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 formEl.addEventListener('submit', onFormSubmit);
 loadMoreBtnEl.addEventListener('click', onLoadMore);
+scrollTopBtn.addEventListener('click', scrollTop);
+window.addEventListener('scroll', toggleScrollTopBtn);
 
 let inputData = '';
 let page = 1;
 inputEl.focus();
-createScrollToTopEl();
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -39,7 +40,7 @@ function onFormSubmit(e) {
 
   if (inputData === '') {
     galleryEl.innerHTML = '';
-    noSearchQueryMessage();
+    emptySearchBarMessage();
     inputEl.focus();
     return;
   }
@@ -68,7 +69,7 @@ function onFormSubmit(e) {
       showElement(loadMoreBtnEl);
     })
     .catch(error => {
-      onErrorMessage();
+      errorMessage();
       console.error(error);
     });
 }
@@ -89,7 +90,7 @@ function onLoadMore(e) {
       page += 1;
     })
     .catch(error => {
-      onErrorMessage();
+      errorMessage();
       console.error(error);
     });
 }
@@ -177,4 +178,19 @@ function showElement(el) {
 
 function hideElement(el) {
   el.classList.add('hidden');
+}
+
+function scrollTop() {
+  window.scroll({
+    top: 0,
+    behavior: 'smooth',
+  });
+}
+
+function toggleScrollTopBtn() {
+  if (window.scrollY > window.innerHeight) {
+    scrollTopBtn.classList.add('active');
+  } else {
+    scrollTopBtn.classList.remove('active');
+  }
 }

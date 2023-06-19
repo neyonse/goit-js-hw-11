@@ -1,6 +1,6 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-function noSearchQueryMessage() {
+function emptySearchBarMessage() {
   const message = 'Please enter your search query in the input field.';
   Notify.info(message, {
     clickToClose: true,
@@ -19,7 +19,7 @@ function noSearchResultsMessage() {
   });
 }
 
-function onErrorMessage() {
+function errorMessage() {
   const message = 'Sorry, something went wrong. Please try reload a page.';
   Notify.failure(message, {
     clickToClose: true,
@@ -28,4 +28,4 @@ function onErrorMessage() {
   });
 }
 
-export { noSearchQueryMessage, noSearchResultsMessage, onErrorMessage };
+export { emptySearchBarMessage, noSearchResultsMessage, errorMessage };
