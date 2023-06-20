@@ -19,11 +19,9 @@ function getFetchImagesUrl(inputData, page) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    page,
     per_page: 40,
-    page: 1,
   };
-
-  params.page = page;
 
   const paramString = Object.entries(params)
     .map(([key, value]) => `${key}=${value}`)

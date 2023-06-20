@@ -1,7 +1,8 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 function emptySearchBarMessage() {
-  const message = 'Please enter your search query in the input field.';
+  const message =
+    'Search bar can not be empty. Please enter your search query.';
   Notify.info(message, {
     clickToClose: true,
     fontSize: '20px',
